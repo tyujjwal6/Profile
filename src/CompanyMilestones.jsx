@@ -1,22 +1,12 @@
 import React from 'react';
-import { 
-  Cog, 
-  Puzzle, 
-  PieChart, 
-  MessagesSquare, 
-  Globe, 
-  Lightbulb,
-  Award // Placeholder for Logo
-} from 'lucide-react';
 
-// Data for each milestone on the timeline
-// The layout is controlled here: position, alignment, colors, and content.
+// Data for each milestone on the timeline.
+// The 'icon' property has been removed as we are using a static image for all milestones.
 const milestones = [
   {
     year: '1985',
     title: 'MLA',
     description: 'WON THE ELECTION FROM LOK DAL PARTY, IN CONSTITUENCY- KHATAULI.',
-    icon: Lightbulb,
     colors: {
       text: 'text-yellow-500',
       border: 'border-yellow-500',
@@ -29,7 +19,6 @@ const milestones = [
     year: '1989',
     title: 'MLA',
     description: 'WON THE ELECTION FROM JANTA DAL PARTY, IN CONSTITUENCY- BAGHRA.',
-    icon: Globe,
     colors: {
       text: 'text-green-500',
       border: 'border-green-500',
@@ -42,7 +31,6 @@ const milestones = [
     year: '1991',
     title: 'MLA',
     description: 'WON THE ELECTION FROM JANTA DAL PARTY, IN CONSTITUENCY- BAGHRA.',
-    icon: MessagesSquare,
     colors: {
       text: 'text-orange-500',
       border: 'border-orange-500',
@@ -55,7 +43,6 @@ const milestones = [
     year: '1993',
     title: 'MLA',
     description: 'WON THE ELECTION FROM JANTA DAL PARTY, IN CONSTITUENCY- BAGHRA.',
-    icon: Puzzle,
     colors: {
       text: 'text-purple-500',
       border: 'border-purple-500',
@@ -65,11 +52,9 @@ const milestones = [
     align: 'bottom',
   },
   {
-
     year: '2002-2008',
     title: 'MP',
     description: 'WON THE ELECTION FROM INDIAN NATIONAL LOK DAL PARTY, IN CONSTITUENCY- RAJYA SABHA (HARYANA).',
-    icon: PieChart,
     colors: {
       text: 'text-cyan-500',
       border: 'border-cyan-500',
@@ -82,7 +67,6 @@ const milestones = [
     year: '2024',
     title: 'MP',
     description: 'WON THE ELECTION FROM SAMAJWADI PARTY, IN CONSTITUENCY- MUZAFFARNAGAR.',
-    icon: Cog,
     colors: {
       text: 'text-red-700',
       border: 'border-red-700',
@@ -92,14 +76,20 @@ const milestones = [
     align: 'top',
   },
 ];
-// Reusable component for the milestone content (Icon + Text)
+
+// Reusable component for the milestone content (Image + Text)
+// This component now uses an <img> tag instead of a dynamic icon component.
 const MilestoneItemContent = ({ milestone }) => {
   const isTextOnLeft = parseFloat(milestone.position.left) > 40;
 
   return (
     <div className={`flex items-start gap-3 w-48 sm:w-56 ${isTextOnLeft ? 'flex-row-reverse' : 'flex-row'}`}>
-      <div className={`flex-shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center border-2 ${milestone.colors.border}`}>
-        <milestone.icon className={milestone.colors.text} size={28} />
+      <div className={`flex-shrink-0 w-14 h-14 rounded-full bg-white p-0.5 border-2 ${milestone.colors.border}`}>
+        <img 
+          src="/netaji3.jpg" 
+          alt={`Political journey milestone: ${milestone.title}`}
+          className="w-full h-full rounded-full object-cover"
+        />
       </div>
       <div className={isTextOnLeft ? 'text-right' : 'text-left'}>
         <h3 className={`font-bold ${milestone.colors.text}`}>{milestone.title}</h3>
@@ -116,20 +106,18 @@ const CompanyMilestones = () => {
       <div className="container mx-auto px-4 relative">
         
         {/* Header Section */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-          
+        <div className="flex flex-col sm:flex-row items-center justify-center text-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 tracking-wide">
               JOURNEY
             </h1>
-            
           </div>
         </div>
 
         {/* Side Description Box */}
         <div className="absolute top-0 right-4 max-w-xs hidden lg:block text-gray-600 text-sm">
-            <h4 className="font-bold text-gray-700">SOME DESCRIPTION HERE</h4>
-            <p>Hrendra Malik won the elections 6 times as shown below.</p>
+            <h4 className="font-bold text-gray-700">POLITICAL MILESTONES</h4>
+            <p>Harendra Malik won the elections 6 times as shown below.</p>
         </div>
 
         {/* Timeline Container */}
