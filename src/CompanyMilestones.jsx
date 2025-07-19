@@ -65,6 +65,7 @@ const milestones = [
     align: 'bottom',
   },
   {
+
     year: '2002-2008',
     title: 'MP',
     description: 'WON THE ELECTION FROM INDIAN NATIONAL LOK DAL PARTY, IN CONSTITUENCY- RAJYA SABHA (HARYANA).',
@@ -91,7 +92,6 @@ const milestones = [
     align: 'top',
   },
 ];
-
 // Reusable component for the milestone content (Icon + Text)
 const MilestoneItemContent = ({ milestone }) => {
   const isTextOnLeft = parseFloat(milestone.position.left) > 40;
@@ -117,22 +117,19 @@ const CompanyMilestones = () => {
         
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-          <div className="flex items-center justify-center w-24 h-24 bg-black rounded-full text-white">
-            <Award size={40} /> 
-            {/* The image shows "LOGO", Award is a placeholder */}
-          </div>
+          
           <div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 tracking-wide">
               JOURNEY
             </h1>
-            <p className="text-sm font-light text-gray-500 tracking-widest">INFOGRAPHIC TEMPLATE</p>
+            
           </div>
         </div>
 
         {/* Side Description Box */}
         <div className="absolute top-0 right-4 max-w-xs hidden lg:block text-gray-600 text-sm">
             <h4 className="font-bold text-gray-700">SOME DESCRIPTION HERE</h4>
-            <p>Sed haec quis possit intrepidus aestimare tellus. Praesentium, totam. Sed haec quis possit intrepidus aestimare tellus. Praesentium, totam.</p>
+            <p>Hrendra Malik won the elections 6 times as shown below.</p>
         </div>
 
         {/* Timeline Container */}
