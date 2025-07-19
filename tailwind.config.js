@@ -6,9 +6,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Poppins', 'sans-serif'],
+           sans: ['Inter', 'sans-serif'], // Set Inter as the default sans-serif
         'serif': ['Playfair Display', 'serif'],
         'script': ['Dancing Script', 'cursive'],
+      },
+           colors: {
+        'brand-accent': '#D97706', // A warm, saffron-like color (amber-600)
       },
     },
   },
