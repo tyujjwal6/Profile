@@ -416,7 +416,7 @@ export default function App() {
             <p className="mission-title-anim text-sm font-semibold text-blue-600 tracking-wider">OUR PRIORITY</p>
             <h2 className="mission-title-anim font-serif text-4xl lg:text-5xl font-bold mt-2">Our Mission & <span className="text-[#0052FF]">Vision</span></h2>
             <p className="mission-title-anim mt-4 text-gray-600">
-              Our mission is to create a better future for our nation and its citizens. We are driven by a shared vision of progress, equality, and prosperity for all.
+              "हमारा मिशन है कि हम अपने देश और इसके नागरिकों के लिए एक बेहतर भविष्य का निर्माण करें। हम सभी की साझा दृष्टि — प्रगति, समानता और समृद्धि — से प्रेरित हैं।"
             </p>
           </div>
           <div className="mission-cards-container mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
