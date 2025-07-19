@@ -232,7 +232,7 @@ export default function App() {
       {/* --- Header --- */}
       <header className="absolute top-0 left-0 right-0 z-30 bg-transparent text-white">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-3xl text-color-blue font-bold nav-item-anim">MP of Muzaffarnagar.</h1>
+          <h1 className="text-3xl text-gray-600 font-bold nav-item-anim">MP of Muzaffarnagar.</h1>
           <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link, i) => (
               <a key={link.name} href={link.href} className="nav-item-anim flex items-center hover:opacity-80 transition-opacity" style={{animationDelay: `${i * 100}ms`}}>
