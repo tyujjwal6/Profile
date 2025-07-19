@@ -345,7 +345,7 @@ export default function App() {
             <div className="get-to-know-image-anim lg:w-5/12 w-full">
               <div className="relative rounded-lg overflow-hidden shadow-2xl">
                  <img 
-                  src="/netaji1.avif" 
+                  src="/netaji2.jpg" 
                   alt="Harendra Malik, Member of Parliament"
                   className="w-full h-full object-cover aspect-[4/5]"
                 />
