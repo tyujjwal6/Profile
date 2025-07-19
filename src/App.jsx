@@ -417,9 +417,9 @@ export default function App() {
         </div>
       </section>
 
-      <section>
+      
         <CompanyMilestones />
-      </section>
+      
 
 
 
