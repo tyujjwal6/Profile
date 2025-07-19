@@ -319,24 +319,7 @@ export default function App() {
       </section>
 
       {/* --- Action Cards Section --- */}
-      <section className="action-cards-section bg-white py-16 lg:py-24">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {actionItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`action-card-anim p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-gray-50 hover:shadow-xl hover:-translate-y-2'}`}
-              >
-                <div className={`inline-flex p-4 rounded-full mb-4 ${item.featured ? 'bg-white text-[#0052FF]' : 'bg-blue-100 text-[#0052FF]'}`}>
-                  <item.icon size={32} />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className={`text-sm ${item.featured ? 'text-blue-100' : 'text-gray-600'}`}>{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* --- Get to Know Section --- */}
       <section className="get-to-know-section py-16 lg:py-24 bg-gray-100">
@@ -348,7 +331,7 @@ export default function App() {
                   src="/netaji2.jpg" 
                   alt="Harendra Malik, Member of Parliament"
                   className="w-full h-full object-cover aspect-[4/5]"
-                />
+                 />
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white">
                   <p className="font-serif italic text-base md:text-lg drop-shadow-md">
                     "हरेंद्र सिंह मलिक का राजनीतिक जीवन 1978 में डीएवी कॉलेज, मुजफ्फरनगर के छात्र संघ चुनाव के साथ शुरू हुआ। 1985–1996: लगातार चार बार विधायक रहे... किसान नेता: उनकी गिनती प्रदेश के प्रमुख किसान नेताओं में होती है।"
