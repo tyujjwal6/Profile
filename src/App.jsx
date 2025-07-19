@@ -3,24 +3,61 @@ import {
   Menu, X, Phone, ChevronDown, ArrowRight, ClipboardList, Calendar, Users, Gift,
   Landmark, Globe, Timer, HeartPulse, Scale, TrendingUp, Stethoscope, Users2
 } from 'lucide-react';
+// Import GSAP and the ScrollTrigger plugin
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// --- Modal Component ---
-// A reusable modal component to be used by various buttons
+// Register the ScrollTrigger plugin with GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// --- Modal Component with Enhanced Animations ---
+// A reusable modal component with GSAP-powered entry and exit animations.
 const Modal = ({ isOpen, onClose, title, children }) => {
+  const modalRef = useRef(null);
+  const backdropRef = useRef(null);
+
+  // This effect handles the exit animation.
+  // It runs the animation first, then calls the parent's onClose function.
+  const handleClose = () => {
+    gsap.to([modalRef.current, backdropRef.current], {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power3.in',
+      onComplete: onClose, // This is the key: call onClose only after animation finishes
+    });
+  };
+  
+  // This effect handles the entry animation when the modal is opened.
+  useEffect(() => {
+    if (isOpen) {
+      gsap.fromTo(
+        backdropRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3 }
+      );
+      gsap.fromTo(
+        modalRef.current,
+        { opacity: 0, scale: 0.95, y: -20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'power3.out', delay: 0.1 }
+      );
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
+      ref={backdropRef}
       className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center"
-      onClick={onClose}
+      onClick={handleClose}
     >
-      <div 
+      <div
+        ref={modalRef}
         className="bg-white rounded-lg shadow-2xl p-8 m-4 max-w-xl w-full relative"
-        onClick={e => e.stopPropagation()} // Prevent closing when clicking inside modal
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
       >
-        <button 
-          onClick={onClose}
+        <button
+          onClick={handleClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
         >
           <X size={24} />
@@ -32,7 +69,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalState, setModalState] = useState({ isOpen: false, title: '', content: '' });
@@ -40,34 +76,109 @@ export default function App() {
   const appRef = useRef(null);
 
   useEffect(() => {
-    // GSAP Animations
     const ctx = gsap.context(() => {
-      // Animate hero text
-      gsap.from(".hero-text-anim", {
-        duration: 1,
-        y: 50,
-        opacity: 0,
-        stagger: 0.2,
-        ease: 'power3.out',
-        delay: 0.5
-      });
-
-      // Animate hero image
-      gsap.from(".hero-image-anim", {
-        duration: 1.2,
-        x: 100,
-        opacity: 0,
-        ease: 'power3.out',
-        delay: 0.8
+      // --- Initial Page Load Animations ---
+      gsap.from(".nav-item-anim", {
+        duration: 0.8, y: -30, opacity: 0, stagger: 0.1, ease: 'power3.out',
       });
       
-      // Animate nav items
-      gsap.from(".nav-item-anim", {
+      const heroTl = gsap.timeline({ delay: 0.5 });
+      heroTl
+        .from(".hero-text-anim", {
+          duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: 'power3.out',
+        })
+        .from(".hero-image-anim", {
+          duration: 1.2, x: 100, opacity: 0, ease: 'power3.out',
+        }, "-=1") // Start this animation 1s before the previous one ends
+        .from(".hero-vision-box-anim", {
+            duration: 0.8, opacity: 0, y: 30, ease: 'power3.out'
+        }, "-=0.5");
+        
+      // --- Scroll-Triggered Animations ---
+
+      // Hero background parallax effect
+      gsap.to(".hero-bg-image", {
+        scrollTrigger: {
+          trigger: ".hero-section",
+          scrub: true,
+        },
+        y: 100,
+        scale: 1.1,
+      });
+
+      // Action Cards Section Animation
+      gsap.from(".action-card-anim", {
+        scrollTrigger: {
+          trigger: ".action-cards-section",
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
         duration: 0.8,
-        y: -30,
         opacity: 0,
-        stagger: 0.1,
-        ease: 'power3.out',
+        y: 50,
+        stagger: 0.2,
+        ease: 'power2.out',
+      });
+
+      // Get to Know Section Animation
+      const getToKnowTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".get-to-know-section",
+          start: "top 70%",
+          toggleActions: "play none none none",
+        },
+      });
+      getToKnowTl
+        .from(".get-to-know-image-anim", { duration: 1, x: -100, opacity: 0, ease: 'power3.out' })
+        .from(".get-to-know-text-anim", {
+          duration: 0.8, x: 50, opacity: 0, stagger: 0.15, ease: 'power3.out'
+        }, "-=0.7");
+
+      // Issues Section Animation
+      gsap.to(".issues-bg-image", {
+        scrollTrigger: {
+          trigger: ".issues-section",
+          scrub: 1,
+        },
+        scale: 1.1,
+        duration: 2,
+      });
+      gsap.from(".issue-item-anim", {
+        scrollTrigger: {
+          trigger: ".issues-section",
+          start: "top 60%",
+          toggleActions: "play none none none",
+        },
+        duration: 0.6,
+        opacity: 0,
+        x: 50,
+        stagger: 0.2,
+      });
+      
+      // Mission & Vision Section Animation
+      gsap.from(".mission-title-anim", {
+          scrollTrigger: {
+              trigger: ".mission-section",
+              start: "top 80%",
+              toggleActions: "play none none none",
+          },
+          duration: 1,
+          opacity: 0,
+          y: 40,
+          stagger: 0.2
+      });
+      gsap.from(".mission-card-anim", {
+          scrollTrigger: {
+              trigger: ".mission-cards-container",
+              start: "top 85%",
+              toggleActions: "play none none none",
+          },
+          duration: 0.8,
+          opacity: 0,
+          y: 50,
+          scale: 0.95,
+          stagger: 0.2,
+          ease: 'power2.out'
       });
 
     }, appRef);
@@ -121,7 +232,7 @@ export default function App() {
       {/* --- Header --- */}
       <header className="absolute top-0 left-0 right-0 z-30 bg-transparent text-white">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold nav-item-anim">MP of Muzaffarnagar.</h1>
+          <h1 className="text-3xl text-color-blue font-bold nav-item-anim">MP of Muzaffarnagar.</h1>
           <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link, i) => (
               <a key={link.name} href={link.href} className="nav-item-anim flex items-center hover:opacity-80 transition-opacity" style={{animationDelay: `${i * 100}ms`}}>
@@ -145,7 +256,6 @@ export default function App() {
             </button>
           </div>
         </div>
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden bg-[#002D62] bg-opacity-95 backdrop-blur-sm absolute top-full left-0 w-full">
             <nav className="flex flex-col items-center space-y-4 py-6">
@@ -168,18 +278,18 @@ export default function App() {
       </header>
       
       {/* --- Hero Section --- */}
-      <section className="relative  text-white pt-32 pb-16 lg:pt-48 lg:pb-24 overflow-hidden">
+      <section className="hero-section relative text-white pt-32 pb-16 lg:pt-48 lg:pb-24 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="public/FLAG.jpg" 
+            src="/FLAG.jpg" 
             alt="Party Flag"
-            className="w-full h-full object-cover opacity-20" 
+            className="hero-bg-image w-full h-full object-cover opacity-20" 
           />
         </div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 text-center lg:text-left">
-              <p className="hero-text-anim  font-semibold tracking-widest text-xl uppercase">परिवर्तन का समय आ गया है</p>
+              <p className="hero-text-anim font-semibold tracking-widest text-xl uppercase">परिवर्तन का समय आ गया है</p>
               <h2 className="hero-text-anim font-serif font-black text-5xl md:text-7xl mt-4 leading-tight">
                 "एक साथ मिलकर <br/> भारत को फिर से <br/>
                 <span >फिर से</span>
@@ -189,19 +299,19 @@ export default function App() {
             <div className="lg:w-1/2 mt-10 lg:mt-0 relative flex justify-center">
               <div className="hero-image-anim w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[550px] lg:h-[550px] relative">
                  <img 
-                    src="public/netaji.jpg" 
+                    src="/netaji.jpg" 
                     alt="Main Candidate" 
                     className="absolute bottom-0 object-contain object-bottom w-full h-auto"
                   />
               </div>
             </div>
-             <div className="absolute bottom-16 right-0 lg:right-10 hidden md:block w-full max-w-xs p-6 bg-black bg-opacity-20 backdrop-blur-sm rounded-lg">
-                <p className="hero-text-anim text-sm">
+             <div className="hero-vision-box-anim absolute bottom-16 right-0 lg:right-10 hidden md:block w-full max-w-xs p-6 bg-black bg-opacity-20 backdrop-blur-sm rounded-lg">
+                <p className="text-sm">
                   We are a dedicated group of individuals who are passionate about revitalizing our nation and ensuring a prosperous future for all Americans.
                 </p>
                 <button
                   onClick={() => openModal('Our Vision', 'Our vision is to restore American values, strengthen our economy, and ensure liberty and justice for all citizens. We believe in a government that serves the people, not the other way around.')}
-                  className="hero-text-anim mt-4 flex items-center justify-center w-full bg-[#0052FF] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors"
+                  className="mt-4 flex items-center justify-center w-full bg-[#0052FF] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors"
                 >
                   SEE OUR VISION <ArrowRight size={20} className="ml-2"/>
                 </button>
@@ -211,13 +321,13 @@ export default function App() {
       </section>
 
       {/* --- Action Cards Section --- */}
-      <section className="bg-white py-16 lg:py-24">
+      <section className="action-cards-section bg-white py-16 lg:py-24">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {actionItems.map((item, index) => (
               <div 
                 key={index} 
-                className={`p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-gray-50 hover:shadow-xl hover:-translate-y-2'}`}
+                className={`action-card-anim p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-gray-50 hover:shadow-xl hover:-translate-y-2'}`}
               >
                 <div className={`inline-flex p-4 rounded-full mb-4 ${item.featured ? 'bg-white text-[#0052FF]' : 'bg-blue-100 text-[#0052FF]'}`}>
                   <item.icon size={32} />
@@ -231,45 +341,34 @@ export default function App() {
       </section>
 
       {/* --- Get to Know Section --- */}
-      <section className="py-16 lg:py-24 bg-gray-100">
+      <section className="get-to-know-section py-16 lg:py-24 bg-gray-100">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            <div className="lg:w-5/12 w-full">
-              <div className="relative rounded-lg overflow-hidden shadow-2xl"> {/* Parent needs overflow-hidden and rounded-lg */}
-         <img 
-          src="/netaji1.avif" 
-          alt="Harendra Malik, Member of Parliament"
-          className="w-full h-full object-cover aspect-[4/5]" // Image takes full space
-        />
-       
-        {/* --- Corrected Text Box --- */}
-        {/* Now positioned at the bottom with a gradient background */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 
-                       bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white">
-       
-          <p className="font-serif italic text-base md:text-lg drop-shadow-md">
-            "हरेंद्र सिंह मलिक का राजनीतिक जीवन 1978 में डीएवी कॉलेज, मुजफ्फरनगर के छात्र संघ चुनाव के साथ शुरू हुआ। 1985–1996: लगातार चार बार विधायक रहे... किसान नेता: उनकी गिनती प्रदेश के प्रमुख किसान नेताओं में होती है।"
-          </p>
-       
-          <p className="text-xs font-bold text-blue-300 mt-4 tracking-wider drop-shadow-sm">
-            MEMBER OF PARLIAMENT
-          </p>
-       
-          <p className="font-bold text-white drop-shadow-sm">
-            Harendra Malik
-          </p>
-        </div>
-       </div>
+            <div className="get-to-know-image-anim lg:w-5/12 w-full">
+              <div className="relative rounded-lg overflow-hidden shadow-2xl">
+                 <img 
+                  src="/netaji1.avif" 
+                  alt="Harendra Malik, Member of Parliament"
+                  className="w-full h-full object-cover aspect-[4/5]"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white">
+                  <p className="font-serif italic text-base md:text-lg drop-shadow-md">
+                    "हरेंद्र सिंह मलिक का राजनीतिक जीवन 1978 में डीएवी कॉलेज, मुजफ्फरनगर के छात्र संघ चुनाव के साथ शुरू हुआ। 1985–1996: लगातार चार बार विधायक रहे... किसान नेता: उनकी गिनती प्रदेश के प्रमुख किसान नेताओं में होती है।"
+                  </p>
+                  <p className="text-xs font-bold text-blue-300 mt-4 tracking-wider drop-shadow-sm">MEMBER OF PARLIAMENT</p>
+                  <p className="font-bold text-white drop-shadow-sm">Harendra Malik</p>
+                </div>
+               </div>
             </div>
             <div className="lg:w-7/12 w-full mt-20 lg:mt-0">
-              <p className="text-sm font-semibold text-blue-600 tracking-wider">ABOUT MP of Muzaffarnagar</p>
-              <h2 className="font-serif text-4xl lg:text-5xl font-bold mt-2">Get to Know Closer <br/> With <span className="text-[#0052FF]">MP of Muzaffarnagar</span></h2>
-              <p className="mt-6 text-gray-600 leading-relaxed">
+              <p className="get-to-know-text-anim text-sm font-semibold text-blue-600 tracking-wider">ABOUT MP of Muzaffarnagar</p>
+              <h2 className="get-to-know-text-anim font-serif text-4xl lg:text-5xl font-bold mt-2">Get to Know Closer <br/> With <span className="text-[#0052FF]">MP of Muzaffarnagar</span></h2>
+              <p className="get-to-know-text-anim mt-6 text-gray-600 leading-relaxed">
                 We firmly believe that when we come together, we can overcome any challenge and achieve remarkable things. Our party stands for unity, strength, and a commitment to the principles that made this nation great. We are dedicated to transparent governance and policies that benefit every American.
               </p>
               <button
                 onClick={() => openModal('Our Core Issues', 'We focus on economic prosperity, national security, healthcare reform, and educational excellence. Explore our detailed plans on how we aim to address these critical areas.')}
-                className="mt-8 flex items-center bg-[#0052FF] text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
+                className="get-to-know-text-anim mt-8 flex items-center bg-[#0052FF] text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
               >
                 SEE THE ISSUES <ArrowRight size={20} className="ml-2"/>
               </button>
@@ -279,15 +378,12 @@ export default function App() {
       </section>
 
       {/* --- Issues Section --- */}
-      <section className="mt-24 lg:mt-32">
+      <section className="issues-section mt-24 lg:mt-32">
         <div className="container mx-auto px-0 lg:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-            <div className="relative text-white flex flex-col justify-center items-start p-8 lg:p-16 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none" style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1599321349979-57753a355f39?q=80&w=1974&auto=format&fit=crop')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}>
+            <div className="relative text-white flex flex-col justify-center items-start p-8 lg:p-16 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none" >
               <div className="absolute inset-0 bg-black opacity-50 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none"></div>
+              <img src='https://images.unsplash.com/photo-1599321349979-57753a355f39?q=80&w=1974&auto=format&fit=crop' alt="Government Building" className="issues-bg-image absolute inset-0 w-full h-full object-cover -z-10 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none" />
               <div className="relative z-10">
                 <p className="text-sm font-semibold tracking-wider">THE ISSUES</p>
                 <h2 className="font-serif text-4xl lg:text-5xl font-bold mt-2">Our <span className="text-blue-400">Responsibility</span> and Government Accountability</h2>
@@ -302,7 +398,7 @@ export default function App() {
             <div className="bg-[#002D62] text-white flex flex-col justify-center p-8 lg:p-16 rounded-b-lg lg:rounded-r-lg lg:rounded-bl-none">
               <div className="space-y-6">
                 {issues.map((issue, index) => (
-                  <div key={index} className="flex items-center group">
+                  <div key={index} className="issue-item-anim flex items-center group">
                     <div className="p-3 bg-blue-900 rounded-md mr-4">
                       <issue.icon size={24} className="text-blue-300"/>
                     </div>
@@ -316,20 +412,20 @@ export default function App() {
       </section>
 
       {/* --- Mission & Vision Section --- */}
-      <section className="py-16 lg:py-24 bg-gray-100">
+      <section className="mission-section py-16 lg:py-24 bg-gray-100">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-sm font-semibold text-blue-600 tracking-wider">OUR PRIORITY</p>
-            <h2 className="font-serif text-4xl lg:text-5xl font-bold mt-2">Our Mission & <span className="text-[#0052FF]">Vision</span></h2>
-            <p className="mt-4 text-gray-600">
+            <p className="mission-title-anim text-sm font-semibold text-blue-600 tracking-wider">OUR PRIORITY</p>
+            <h2 className="mission-title-anim font-serif text-4xl lg:text-5xl font-bold mt-2">Our Mission & <span className="text-[#0052FF]">Vision</span></h2>
+            <p className="mission-title-anim mt-4 text-gray-600">
               Our mission is to create a better future for our nation and its citizens. We are driven by a shared vision of progress, equality, and prosperity for all.
             </p>
           </div>
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mission-cards-container mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
             {missionItems.map((item, index) => (
               <div 
                 key={index} 
-                className={`p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-white shadow-lg'}`}
+                className={`mission-card-anim p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-white shadow-lg'}`}
               >
                 <div className={`inline-flex p-3 rounded-md mb-6 ${item.featured ? 'bg-white text-[#0052FF]' : 'bg-blue-100 text-[#0052FF]'}`}>
                   <item.icon size={28} />
@@ -341,7 +437,6 @@ export default function App() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
