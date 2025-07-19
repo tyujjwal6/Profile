@@ -362,10 +362,10 @@ export default function App() {
               <p className="get-to-know-text-anim text-sm font-semibold text-blue-600 tracking-wider">ABOUT MP of Muzaffarnagar</p>
               <h2 className="get-to-know-text-anim font-serif text-4xl lg:text-5xl font-bold mt-2">Get to Know Closer <br/> With <span className="text-[#0052FF]">MP of Muzaffarnagar</span></h2>
               <p className="get-to-know-text-anim mt-6 text-gray-600 leading-relaxed">
-                We firmly believe that when we come together, we can overcome any challenge and achieve remarkable things. Our party stands for unity, strength, and a commitment to the principles that made this nation great. We are dedicated to transparent governance and policies that benefit every American.
+                "हम दृढ़ता से मानते हैं कि जब हम एकजुट होते हैं, तो किसी भी चुनौती को पार कर सकते हैं और असाधारण उपलब्धियाँ हासिल कर सकते हैं। हमारी पार्टी एकता, शक्ति और उन सिद्धांतों के प्रति प्रतिबद्ध है, जिन्होंने इस राष्ट्र को महान बनाया है। हम पारदर्शी शासन व्यवस्था और ऐसी नीतियों के लिए समर्पित हैं जो हर भारतीय के हित में हों।"
               </p>
               <button
-                onClick={() => openModal('Our Core Issues', 'We focus on economic prosperity, national security, healthcare reform, and educational excellence. Explore our detailed plans on how we aim to address these critical areas.')}
+                onClick={() => openModal('Our Core Issues', "हम आर्थिक समृद्धि, राष्ट्रीय सुरक्षा, स्वास्थ्य सेवा में सुधार और शैक्षिक उत्कृष्टता पर विशेष ध्यान देते हैं। इन महत्वपूर्ण क्षेत्रों को कैसे सुलझाया जाएगा, इस पर हमारे विस्तृत योजनाओं को जानें।")}
                 className="get-to-know-text-anim mt-8 flex items-center bg-[#0052FF] text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
               >
                 SEE THE ISSUES <ArrowRight size={20} className="ml-2"/>
@@ -378,7 +378,7 @@ export default function App() {
       {/* --- Issues Section --- */}
       <section className="issues-section mt-24 lg:mt-32">
         <div className="container mx-auto px-0 lg:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+          <div className="grid grid-cols-1  min-h-[500px]">
             <div className="relative text-white flex flex-col justify-center items-start p-8 lg:p-16 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none" >
               <div className="absolute inset-0 bg-black opacity-50 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none"></div>
               <img src='https://images.unsplash.com/photo-1599321349979-57753a355f39?q=80&w=1974&auto=format&fit=crop' alt="Government Building" className="issues-bg-image absolute inset-0 w-full h-full object-cover -z-10 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none" />
@@ -393,18 +393,7 @@ export default function App() {
                 </button>
               </div>
             </div>
-            <div className="bg-[#002D62] text-white flex flex-col justify-center p-8 lg:p-16 rounded-b-lg lg:rounded-r-lg lg:rounded-bl-none">
-              <div className="space-y-6">
-                {issues.map((issue, index) => (
-                  <div key={index} className="issue-item-anim flex items-center group">
-                    <div className="p-3 bg-blue-900 rounded-md mr-4">
-                      <issue.icon size={24} className="text-blue-300"/>
-                    </div>
-                    <span className="text-xl font-semibold group-hover:text-blue-300 transition-colors cursor-pointer">{issue.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
