@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Menu, X, Phone, ChevronDown, ArrowRight, ClipboardList, Calendar, Users, Gift,
-  Landmark, Globe, Timer, HeartPulse, Scale, TrendingUp, Stethoscope, Users2
+  Landmark, Globe, Timer, HeartPulse, Scale, TrendingUp, Stethoscope, Users2,
+  Leaf,
+  Award
 } from 'lucide-react';
 // Import GSAP and the ScrollTrigger plugin
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import CompanyMilestones from './CompanyMilestones';
 
 // Register the ScrollTrigger plugin with GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -155,6 +158,10 @@ export default function App() {
         stagger: 0.2,
       });
       
+
+            // ... (inside the useEffect's ctx function)
+
+      
       // Mission & Vision Section Animation
       gsap.from(".mission-title-anim", {
           scrollTrigger: {
@@ -201,6 +208,8 @@ export default function App() {
     { name: 'Priority', href: '#' },
     { name: 'Blog', href: '#' },
   ];
+
+ 
   
   const actionItems = [
     { icon: ClipboardList, title: "Register To Vote", description: "Make your voice heard by registering to vote. Exercise your democratic right." },
@@ -299,7 +308,7 @@ export default function App() {
             <div className="lg:w-1/2 mt-10 lg:mt-0 relative flex justify-center">
               <div className="hero-image-anim w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[550px] lg:h-[550px] relative">
                  <img 
-                    src="/netaji.jpg" 
+                    src="/netaji.png" 
                     alt="Main Candidate" 
                     className="absolute bottom-0 object-contain object-bottom w-full h-auto"
                   />
@@ -407,6 +416,14 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <section>
+        <CompanyMilestones />
+      </section>
+
+
+
+      
     </div>
   );
 }
