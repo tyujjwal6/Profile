@@ -306,11 +306,9 @@ export default function App() {
               </div>
             </div>
              <div className="hero-vision-box-anim absolute bottom-16 right-0 lg:right-10 hidden md:block w-full max-w-xs p-6 bg-black bg-opacity-20 backdrop-blur-sm rounded-lg">
-                <p className="text-sm">
-                  We are a dedicated group of individuals who are passionate about revitalizing our nation and ensuring a prosperous future for all Americans.
-                </p>
+                
                 <button
-                  onClick={() => openModal('Our Vision', 'Our vision is to restore American values, strengthen our economy, and ensure liberty and justice for all citizens. We believe in a government that serves the people, not the other way around.')}
+                  onClick={() => openModal('Our Vision', "हमारा लक्ष्य भारतीय मूल्यों की पुनर्स्थापना करना, अर्थव्यवस्था को सशक्त बनाना, और सभी नागरिकों के लिए स्वतंत्रता और न्याय सुनिश्चित करना है। हम ऐसे शासन में विश्वास करते हैं जो जनता की सेवा करे, न कि जनता उस शासन की।")}
                   className="mt-4 flex items-center justify-center w-full bg-[#0052FF] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors"
                 >
                   SEE OUR VISION <ArrowRight size={20} className="ml-2"/>
