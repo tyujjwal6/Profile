@@ -400,20 +400,7 @@ export default function App() {
               "हमारा मिशन है कि हम अपने देश और इसके नागरिकों के लिए एक बेहतर भविष्य का निर्माण करें। हम सभी की साझा दृष्टि — प्रगति, समानता और समृद्धि — से प्रेरित हैं।"
             </p>
           </div>
-          <div className="mission-cards-container mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {missionItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`mission-card-anim p-8 rounded-lg transition-all duration-300 ${item.featured ? 'bg-[#0052FF] text-white' : 'bg-white shadow-lg'}`}
-              >
-                <div className={`inline-flex p-3 rounded-md mb-6 ${item.featured ? 'bg-white text-[#0052FF]' : 'bg-blue-100 text-[#0052FF]'}`}>
-                  <item.icon size={28} />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                <p className={`${item.featured ? 'text-blue-100' : 'text-gray-600'}`}>{item.description}</p>
-              </div>
-            ))}
-          </div>
+          
         </div>
       </section>
 
