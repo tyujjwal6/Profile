@@ -283,7 +283,7 @@ export default function App() {
           <img 
             src="/FLAG.jpg" 
             alt="Party Flag"
-            className="hero-bg-image w-full h-full object-cover opacity-20" 
+            className="hero-bg-image w-full h-full object-cover " 
           />
         </div>
         <div className="container mx-auto px-6 relative z-10">
@@ -293,7 +293,7 @@ export default function App() {
               <h2 className="hero-text-anim font-serif font-black text-5xl md:text-7xl mt-4 leading-tight">
                 "एक साथ मिलकर <br/> भारत को फिर से <br/>
                 <span >फिर से</span>
-                <br/> <span className="font-script text-blue-400"> महान बनाएँ "</span>
+                <br/> <span className="font-script text-gray-600"> महान बनाएँ "</span>
               </h2>
             </div>
             <div className="lg:w-1/2 mt-10 lg:mt-0 relative flex justify-center">
